@@ -1,0 +1,11 @@
+# GitHub Actions: same demo app, always headless, a little more patience on shared runners.
+base_url: http://127.0.0.1:8771
+browser: chromium
+headless: true
+timeout: 15s
+start_app: true
+db_path: results/acme_hr.sqlite3
+users:
+  employee: {username: emma, password: demo-employee-pass}
+  manager: {username: mark, password: demo-manager-pass}
+  admin: {username: ada, password: demo-admin-pass}

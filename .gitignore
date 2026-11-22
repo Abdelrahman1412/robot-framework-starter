@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+results/
+pabot_results/
+.pabotsuitenames
+log.html
+report.html
+output.xml
+.env
+.idea/
+.vscode/

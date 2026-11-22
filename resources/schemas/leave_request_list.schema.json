@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Leave request list",
+  "type": "object",
+  "required": ["items", "count"],
+  "additionalProperties": false,
+  "properties": {
+    "count": {"type": "integer", "minimum": 0},
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "employee", "status"],
+        "properties": {
+          "id": {"type": "integer"},
+          "employee": {"type": "string"},
+          "status": {"enum": ["pending", "approved", "rejected"]}
+        }
+      }
+    }
+  }
+}

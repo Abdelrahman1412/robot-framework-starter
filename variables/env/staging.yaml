@@ -1,0 +1,11 @@
+# Example of a deployed environment. Real credentials come from env vars
+# (ACME_EMPLOYEE_PASSWORD, ...) or your CI secret store, never from this file.
+base_url: https://acme-hr.staging.example.com
+browser: chromium
+headless: true
+timeout: 20s
+start_app: false
+users:
+  employee: {username: change-me, password: set-ACME_EMPLOYEE_PASSWORD}
+  manager: {username: change-me, password: set-ACME_MANAGER_PASSWORD}
+  admin: {username: change-me, password: set-ACME_ADMIN_PASSWORD}

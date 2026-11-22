@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Login response",
+  "type": "object",
+  "required": ["token", "user"],
+  "properties": {
+    "token": {"type": "string", "minLength": 16},
+    "user": {
+      "type": "object",
+      "required": ["username", "name", "role"],
+      "properties": {
+        "username": {"type": "string"},
+        "name": {"type": "string"},
+        "role": {"enum": ["employee", "manager", "admin"]}
+      }
+    }
+  }
+}

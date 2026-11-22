@@ -1,0 +1,66 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version-file: .python-version
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+      - run: uv sync --locked --all-extras
+      - name: Robocop lint
+        run: uv run robocop check
+      - name: Robocop format check
+        run: uv run robocop format --check --diff
+
+  acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      ACME_ENV: ci
+      HEADLESS: "true"
+      PROCESSES: "2"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version-file: .python-version
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+      - run: uv sync --locked --all-extras
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ms-playwright-${{ runner.os }}-${{ hashFiles('uv.lock') }}
+      - name: Install Browser library node deps and Chromium
+        run: uv run rfbrowser init --with-deps chromium
+      - name: Run suite (starts Acme HR, pabot in parallel, rebot merge)
+        run: scripts/run.sh
+      - name: Upload Robot Framework report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: robot-report
+          path: |
+            results/log.html
+            results/report.html
+            results/output.xml
+            results/xunit.xml
+            results/acme_hr.log
+          if-no-files-found: warn

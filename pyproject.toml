@@ -1,0 +1,33 @@
+[project]
+name = "robot-framework-starter"
+version = "2.0.0"
+description = "Keyword-driven Robot Framework 7 starter: Browser (Playwright) UI, RequestsLibrary API, pabot, rebot and Robocop, proven against a local Acme HR demo app."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = [
+    "robotframework==7.5.1",
+    "robotframework-browser==21.0.0",
+    "robotframework-requests==0.9.7",
+    "robotframework-pabot==5.2.2",
+    "jsonschema==4.26.0",
+    "pyyaml==6.0.4",
+]
+
+[project.optional-dependencies]
+db = ["robotframework-databaselibrary==2.5.0"]
+
+[dependency-groups]
+dev = ["robotframework-robocop==9.4.0"]
+
+[tool.uv]
+package = false
+
+[tool.robocop]
+[tool.robocop.lint]
+# DOC01/DOC02: BDD keyword and test names are the documentation.
+# MISC04: counts VAR as an assignment without "="; the formatter already enforces "=".
+ignore = ["DOC01", "DOC02", "MISC04"]
+
+[tool.robocop.format]
+configure = ["NormalizeAssignments.equal_sign_type=equal_sign"]

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "API error",
+  "type": "object",
+  "required": ["error", "message"],
+  "additionalProperties": false,
+  "properties": {
+    "error": {"enum": ["invalid_credentials", "unauthorized", "forbidden", "not_found", "validation_error", "conflict"]},
+    "message": {"type": "string", "minLength": 1}
+  }
+}
